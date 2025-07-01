@@ -33,8 +33,43 @@ class MonHandler(BaseHTTPRequestHandler):
         finally:
             if 'conn' in locals() and conn.is_connected():
                 cursor.close()
-                conn.close()
-
+                    conn.close()
+    try:
+        conn = mysql.connector.connect(**config)
+        cursor = conn.cursor()
+    
+        # 💽 Créer la BDD si elle n'existe pas
+        cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DB_NAME}")
+        print(f"✅ Base de données `{DB_NAME}` prête.")
+    
+        conn.database = DB_NAME
+    
+        # 📁 Créer les tables
+        for table_name, ddl in TABLES.items():
+            cursor.execute(ddl)
+            print(f"🧱 Table `{table_name}` prête.")
+    
+        # ✨ (Optionnel) Ajouter des vidéos de test
+        insert_query = (
+            "INSERT INTO videos (titre, url) "
+            "VALUES (%s, %s)"
+        )
+        videos = [
+            ('Bienvenue sur mon site', 'https://exemple.com/intro.mp4'),
+            ('Mon deuxième clip', 'https://exemple.com/video2.mp4'),
+        ]
+        cursor.executemany(insert_query, videos)
+        conn.commit()
+        print("🎬 Vidéos de test ajoutées.")
+    
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("🚫 Mauvais nom d'utilisateur ou mot de passe")
+        else:
+            print(f"Erreur : {err}")
+    finally:
+        cursor.close()
+        conn.close()
     # Gestion des messages serveur lors de l'exécution des requetes et gestion des différentes route
     def do_GET(self):
         try:
