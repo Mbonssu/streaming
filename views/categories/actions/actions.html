@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Films d'Action - Streaming</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <style>
+      :root {
+        --bg-primary: #0a0a0a;
+        --bg-secondary: #141414;
+        --accent-primary: #9333ea;
+        --accent-secondary: #3b82f6;
+        --text-primary: #ffffff;
+        --text-secondary: #a0a0a0;
+        --border-radius: 8px;
+        --card-background: #1a1a1a;
+        --footer-background: #0f0f0f;
+        --footer-text: #a0a0a0;
+        --input-border: #2a2a2a;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 3rem;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      }
+
+      body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        overflow-x: hidden;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 3rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: linear-gradient(
+          180deg,
+          rgba(10, 10, 10, 1) 0%,
+          rgba(10, 10, 10, 0.9) 70%,
+          rgba(10, 10, 10, 0) 100%
+        );
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+      }
+
+      .logo-text {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent-primary);
+        background: rgba(147, 51, 234, 0.1);
+      }
+
+      .nav-links a.active {
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        color: white;
+        box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .search-box {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+
+      .search-box:focus-within {
+        background-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 0 2px var(--accent-primary);
+      }
+
+      .search-box input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--text-primary);
+        padding-left: 0.5rem;
+        width: 150px;
+      }
+
+      .btn {
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        color: white;
+        border: none;
+        padding: 0.7rem 1.5rem;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+      }
+
+      .hero {
+        height: 80vh;
+        background: url("/api/placeholder/1920/1080") no-repeat center center;
+        background-size: cover;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 3rem 5rem 3rem;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          0deg,
+          var(--bg-primary) 0%,
+          rgba(10, 10, 10, 0.5) 50%,
+          rgba(10, 10, 10, 0.7) 100%
+        );
+        z-index: 1;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+      }
+
+      .hero-badge {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(4px);
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        display: inline-block;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .hero-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+      }
+
+      .hero-description {
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0.7rem 1.5rem;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+      }
+
+      main {
+        padding: 2rem 3rem;
+      }
+
+      .main-title {
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 600;
+      }
+
+      .movie-section {
+        margin-bottom: 3rem;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+
+      .movies-slider {
+        display: flex;
+        overflow-x: auto;
+        gap: 1.5rem;
+        padding: 1rem 0;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent-primary) #222;
+      }
+
+      .movies-slider::-webkit-scrollbar {
+        height: 8px;
+        background: #222;
+      }
+
+      .movies-slider::-webkit-scrollbar-thumb {
+        background: var(--accent-primary);
+        border-radius: 4px;
+      }
+
+      .movie-card {
+        flex: 0 0 200px;
+        width: 200px;
+        background: var(--card-background);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        scroll-snap-align: start;
+      }
+
+      .movie-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 32px rgba(147, 51, 234, 0.25);
+      }
+
+      .movie-poster {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .movie-info {
+        padding: 1rem;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          0deg,
+          rgba(20, 20, 20, 0.95) 0%,
+          rgba(20, 20, 20, 0.8) 50%,
+          transparent 100%
+        );
+      }
+
+      .movie-title {
+        color: var(--text-primary);
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+        line-height: 1.2;
+      }
+
+      .movie-year {
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+
+      footer {
+        padding: 3rem;
+        background-color: var(--bg-secondary);
+        text-align: center;
+        margin-top: 3rem;
+      }
+
+      .footer-logo {
+        margin-bottom: 1.5rem;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--accent-primary);
+      }
+
+      .copyright {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem 1.5rem;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .nav-links {
+          gap: 1rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .hero {
+          padding: 0 1.5rem 3rem 1.5rem;
+        }
+
+        .hero-title {
+          font-size: 2rem;
+        }
+
+        main {
+          padding: 1.5rem;
+        }
+
+        .main-title {
+          font-size: 2rem;
+        }
+
+        .movie-card {
+          flex: 0 0 150px;
+          width: 150px;
+        }
+
+        .movie-poster {
+          height: 225px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="logo-container">
+          <svg
+            class="logo"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="100" cy="100" r="90" fill="#1a1a1a" />
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#9333ea" />
+              <stop offset="100%" stop-color="#3b82f6" />
+            </linearGradient>
+            <circle
+              cx="100"
+              cy="100"
+              r="85"
+              stroke="url(#gradient)"
+              stroke-width="6"
+              fill="none"
+            />
+            <path
+              d="M70,70 C70,50 130,50 130,70 L130,100 L145,85 L130,70 L130,70"
+              fill="#9333ea"
+            />
+            <path
+              d="M130,130 C130,150 70,150 70,130 L70,100 L55,115 L70,130 L70,130"
+              fill="#3b82f6"
+            />
+            <circle cx="100" cy="100" r="15" fill="#ffffff" />
+            <circle cx="100" cy="100" r="8" fill="#1a1a1a" />
+          </svg>
+          <div class="logo-text">LOOPFLX</div>
+        </div>
+
+        <div class="nav-links">
+          <a href="/">Accueil</a>
+          <a href="/categories/actions" class="active">Action</a>
+          <a href="/categories/comedy">Comédie</a>
+          <a href="/categories/drama">Drame</a>
+          <a href="/categories/scifi">Sci-Fi</a>
+        </div>
+        <div class="nav-actions">
+          <div class="search-box">
+            <input type="text" placeholder="Rechercher..." />
+          </div>
+          <button class="btn">Connexion</button>
+        </div>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">EXCLUSIVITÉ LOOPFLX</div>
+        <p class="hero-description">
+          Accédez à des milliers de titres en illimité. Films, séries,
+          documentaires et bien plus encore.
+        </p>
+        <div class="hero-actions">
+          <button class="btn">Regarder maintenant</button>
+          <button class="btn-secondary">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                stroke="white"
+                stroke-width="2"
+              />
+              <path
+                d="M8.5 12.5L10.5 14.5L15.5 9.5"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Ajouter à ma liste
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <main>
+      <h1 class="main-title">Films d'Action</h1>
+
+      <!-- Ligne 1: Films Super-Héros -->
+      <div class="movie-section">
+        <h2 class="section-title">Films Super-Héros</h2>
+        <div class="movies-slider">
+          <a href="/films/avengers" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1635863138275-d9864d328542?w=400&h=600&fit=crop"
+              alt="Avengers: Endgame"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Avengers: Endgame</div>
+              <div class="movie-year">2019</div>
+            </div>
+          </a>
+          <a href="/films/ironman" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1608889175250-c3b0c1667d3a?w=400&h=600&fit=crop"
+              alt="Iron Man"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Iron Man</div>
+              <div class="movie-year">2008</div>
+            </div>
+          </a>
+          <a href="/films/spiderman" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1580130601254-58f4d1aa6cf0?w=400&h=600&fit=crop"
+              alt="Spider-Man"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Spider-Man</div>
+              <div class="movie-year">2002</div>
+            </div>
+          </a>
+          <a href="/films/blackpanther" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&h=600&fit=crop"
+              alt="Black Panther"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Black Panther</div>
+              <div class="movie-year">2018</div>
+            </div>
+          </a>
+          <a href="/films/venom" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=600&fit=crop"
+              alt="Venom"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Venom</div>
+              <div class="movie-year">2018</div>
+            </div>
+          </a>
+          <a href="/films/wonderwoman" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?w=400&h=600&fit=crop"
+              alt="Wonder Woman"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Wonder Woman</div>
+              <div class="movie-year">2017</div>
+            </div>
+          </a>
+          <a href="/films/aquaman" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=600&fit=crop"
+              alt="Aquaman"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Aquaman</div>
+              <div class="movie-year">2018</div>
+            </div>
+          </a>
+          <a href="/films/thor" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=600&fit=crop"
+              alt="Thor"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Thor</div>
+              <div class="movie-year">2011</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Ligne 2: Films d'Espionnage -->
+      <div class="movie-section">
+        <h2 class="section-title">Films d'Espionnage</h2>
+        <div class="movies-slider">
+          <a href="/films/missionimpossible" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=600&fit=crop"
+              alt="Mission: Impossible Fallout"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Mission: Impossible Fallout</div>
+              <div class="movie-year">2018</div>
+            </div>
+          </a>
+          <a href="/films/skyfall" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1489599112551-67b5a7c72de6?w=400&h=600&fit=crop"
+              alt="Skyfall"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Skyfall</div>
+              <div class="movie-year">2012</div>
+            </div>
+          </a>
+          <a href="/films/bourne" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=600&fit=crop"
+              alt="Jason Bourne"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Jason Bourne</div>
+              <div class="movie-year">2016</div>
+            </div>
+          </a>
+          <a href="/films/kingsman" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop"
+              alt="Kingsman"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Kingsman</div>
+              <div class="movie-year">2014</div>
+            </div>
+          </a>
+          <a href="/films/atomicblonde" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1494790108755-2616c045a78c?w=400&h=600&fit=crop"
+              alt="Atomic Blonde"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Atomic Blonde</div>
+              <div class="movie-year">2017</div>
+            </div>
+          </a>
+          <a href="/films/saltangel" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=600&fit=crop"
+              alt="Salt"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Salt</div>
+              <div class="movie-year">2010</div>
+            </div>
+          </a>
+          <a href="/films/rednotice" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1533628635777-112b2239b1c7?w=400&h=600&fit=crop"
+              alt="Red Notice"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Red Notice</div>
+              <div class="movie-year">2021</div>
+            </div>
+          </a>
+          <a href="/films/tenet" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=400&h=600&fit=crop"
+              alt="Tenet"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Tenet</div>
+              <div class="movie-year">2020</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Ligne 3: Films de Combat -->
+      <div class="movie-section">
+        <h2 class="section-title">Films de Combat</h2>
+        <div class="movies-slider">
+          <a href="/films/johnwick" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=400&h=600&fit=crop"
+              alt="John Wick"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">John Wick</div>
+              <div class="movie-year">2014</div>
+            </div>
+          </a>
+          <a href="/films/nobody" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=600&fit=crop"
+              alt="Nobody"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Nobody</div>
+              <div class="movie-year">2021</div>
+            </div>
+          </a>
+          <a href="/films/oldguard" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=600&fit=crop"
+              alt="The Old Guard"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">The Old Guard</div>
+              <div class="movie-year">2020</div>
+            </div>
+          </a>
+          <a href="/films/equalizer" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=600&fit=crop"
+              alt="The Equalizer"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">The Equalizer</div>
+              <div class="movie-year">2014</div>
+            </div>
+          </a>
+          <a href="/films/taken" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1524863479829-916d8e77f114?w=400&h=600&fit=crop"
+              alt="Taken"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Taken</div>
+              <div class="movie-year">2008</div>
+            </div>
+          </a>
+          <a href="/films/killbill" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?w=400&h=600&fit=crop"
+              alt="Kill Bill"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Kill Bill</div>
+              <div class="movie-year">2003</div>
+            </div>
+          </a>
+          <a href="/films/raid" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=600&fit=crop"
+              alt="The Raid"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">The Raid</div>
+              <div class="movie-year">2011</div>
+            </div>
+          </a>
+          <a href="/films/creed" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=600&fit=crop"
+              alt="Creed"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Creed</div>
+              <div class="movie-year">2015</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Ligne 4: Films de Course/Voitures -->
+      <div class="movie-section">
+        <h2 class="section-title">Films de Course</h2>
+        <div class="movies-slider">
+          <a href="/films/fastfurious" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?w=400&h=600&fit=crop"
+              alt="Fast & Furious 7"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Fast & Furious 7</div>
+              <div class="movie-year">2015</div>
+            </div>
+          </a>
+          <a href="/films/madmax" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=600&fit=crop"
+              alt="Mad Max: Fury Road"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Mad Max: Fury Road</div>
+              <div class="movie-year">2015</div>
+            </div>
+          </a>
+          <a href="/films/rush" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&h=600&fit=crop"
+              alt="Rush"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Rush</div>
+              <div class="movie-year">2013</div>
+            </div>
+          </a>
+          <a href="/films/ford" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=600&fit=crop"
+              alt="Ford v Ferrari"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Ford v Ferrari</div>
+              <div class="movie-year">2019</div>
+            </div>
+          </a>
+          <a href="/films/needforspeed" class="movie-card">
+            <img
+              src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=600&fit=crop"
+              alt="Need for Speed"
+              class="movie-poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Need for Speed</div>
+            </div></a
+          >
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

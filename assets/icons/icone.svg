@@ -1,0 +1,21 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fond sombre circulaire -->
+  <circle cx="100" cy="100" r="90" fill="#1a1a1a"/>
+  
+  <!-- Dégradé de couleur pour le cercle extérieur -->
+  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#9333ea" />
+    <stop offset="100%" stop-color="#3b82f6" />
+  </linearGradient>
+  
+  <!-- Cercle extérieur avec dégradé -->
+  <circle cx="100" cy="100" r="85" stroke="url(#gradient)" stroke-width="6" fill="none"/>
+  
+  <!-- Le symbole "Loop" - deux flèches formant une boucle -->
+  <path d="M70,70 C70,50 130,50 130,70 L130,100 L145,85 L130,70 L130,70" fill="#9333ea" />
+  <path d="M130,130 C130,150 70,150 70,130 L70,100 L55,115 L70,130 L70,130" fill="#3b82f6" />
+  
+  <!-- Point de lecture -->
+  <circle cx="100" cy="100" r="15" fill="#ffffff" />
+  <circle cx="100" cy="100" r="8" fill="#1a1a1a" />
+</svg>

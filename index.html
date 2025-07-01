@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <style>
+      :root {
+        --bg-primary: #0a0a0a;
+        --bg-secondary: #141414;
+        --accent-primary: #9333ea;
+        --accent-secondary: #3b82f6;
+        --text-primary: #ffffff;
+        --text-secondary: #a0a0a0;
+        --border-radius: 8px;
+        --card-background: #1a1a1a;
+        --footer-background: #0f0f0f;
+        --footer-text: #a0a0a0;
+        --input-border: #2a2a2a;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 3rem;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      }
+
+      body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        overflow-x: hidden;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 3rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: linear-gradient(
+          180deg,
+          rgba(10, 10, 10, 1) 0%,
+          rgba(10, 10, 10, 0.9) 70%,
+          rgba(10, 10, 10, 0) 100%
+        );
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo {
+        width: 40px;
+        height: 40px;
+      }
+
+      .logo-text {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent-primary);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .search-box {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+
+      .search-box:focus-within {
+        background-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 0 2px var(--accent-primary);
+      }
+
+      .search-box input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--text-primary);
+        padding-left: 0.5rem;
+        width: 150px;
+      }
+
+      .btn {
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        color: white;
+        border: none;
+        padding: 0.7rem 1.5rem;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+      }
+
+      .hero {
+        height: 80vh;
+        background: url("/api/placeholder/1920/1080") no-repeat center center;
+        background-size: cover;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 3rem 5rem 3rem;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          0deg,
+          var(--bg-primary) 0%,
+          rgba(10, 10, 10, 0.5) 50%,
+          rgba(10, 10, 10, 0.7) 100%
+        );
+        z-index: 1;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+      }
+
+      .hero-badge {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(4px);
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        display: inline-block;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .hero-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+      }
+
+      .hero-description {
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0.7rem 1.5rem;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+      }
+
+      main {
+        padding: 2rem 3rem;
+      }
+
+      .section-title {
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        font-weight: 600;
+      }
+
+      .movie-slider {
+        display: flex;
+        gap: 1.5rem;
+        overflow-x: auto;
+        padding: 1rem 0.5rem;
+        scrollbar-width: none;
+        margin-bottom: 3rem;
+      }
+
+      .movie-slider::-webkit-scrollbar {
+        display: none;
+      }
+
+      .movie-card {
+        min-width: 220px;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .movie-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .movie-card:hover .movie-info {
+        opacity: 1;
+      }
+
+      .movie-poster {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+      }
+
+      .movie-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1.5rem 1rem;
+        background: linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.9) 0%,
+          rgba(0, 0, 0, 0.7) 50%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        opacity: 0.8;
+        transition: all 0.3s ease;
+      }
+
+      .movie-title {
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        font-size: 1rem;
+      }
+
+      .movie-meta {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .badge {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.7rem;
+      }
+
+      .categories {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 0.5rem;
+      }
+
+      .categories::-webkit-scrollbar {
+        display: none;
+      }
+
+      .category {
+        padding: 0.6rem 1.5rem;
+        background: var(--bg-secondary);
+        border-radius: 20px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.3s ease;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo-text {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent-primary);
+      }
+
+      .nav-links a.active {
+        color: var(--accent-primary);
+      }
+
+      .hero {
+        height: 50vh;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: linear-gradient(
+          135deg,
+          var(--bg-primary) 0%,
+          var(--bg-secondary) 100%
+        );
+        margin-top: 80px;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(147, 51, 234, 0.1) 0%,
+          transparent 50%
+        );
+        z-index: 1;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+        padding: 0 2rem;
+      }
+
+      .hero-badge {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(4px);
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        display: inline-block;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .hero-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+        background: linear-gradient(
+          90deg,
+          var(--text-primary),
+          var(--text-secondary)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero-description {
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      .page-section {
+        display: none;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        padding: 2.5rem;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      .page-section.active {
+        display: block;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h1,
+      h2,
+      h3 {
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      h3 {
+        font-size: 1.3rem;
+        margin-top: 2rem;
+      }
+
+      p {
+        margin-bottom: 1.2rem;
+        line-height: 1.7;
+        color: var(--text-secondary);
+      }
+
+      .btn {
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        color: white;
+        border: none;
+        padding: 0.8rem 1.8rem;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+      }
+
+      .btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(147, 51, 234, 0.4);
+      }
+
+      .form-group {
+        margin-bottom: 1.8rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.6rem;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        font-size: 1rem;
+        color: var(--text-primary);
+        transition: all 0.3s ease;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.2);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: var(--text-secondary);
+      }
+
+      textarea {
+        min-height: 150px;
+        resize: vertical;
+      }
+
+      .job-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: all 0.3s ease;
+      }
+
+      .job-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(147, 51, 234, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .job-title {
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      .job-location {
+        color: var(--text-secondary);
+        font-style: italic;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+      }
+
+      ul {
+        margin-left: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      li {
+        margin-bottom: 0.5rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      strong {
+        color: var(--text-primary);
+      }
+
+      .contact-info {
+        margin-top: 2.5rem;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .contact-info h3 {
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+      }
+
+      .contact-info p {
+        margin-bottom: 0.8rem;
+      }
+
+      footer {
+        padding: 3rem;
+        background: var(--bg-secondary);
+        text-align: center;
+        margin-top: 3rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-logo {
+        margin-bottom: 1.5rem;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .footer-links a:hover {
+        color: var(--accent-primary);
+      }
+
+      .copyright {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .badge {
+        background: rgba(147, 51, 234, 0.2);
+        color: var(--accent-primary);
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        display: inline-block;
+        margin-bottom: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem 1.5rem;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .nav-links {
+          gap: 1rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .container {
+          padding: 1.5rem;
+        }
+
+        .page-section {
+          padding: 1.5rem;
+        }
+
+        .job-card {
+          padding: 1.5rem;
+        }
+
+        h2 {
+          font-size: 1.6rem;
+        }
+
+        .footer-links {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+
+      .category.active {
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+      }
+
+      .category:hover:not(.active) {
+        background: #1c1c1c;
+      }
+
+      footer {
+        padding: 3rem;
+        background-color: var(--bg-secondary);
+        text-align: center;
+        margin-top: 3rem;
+      }
+
+      .footer-logo {
+        margin-bottom: 1.5rem;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--accent-primary);
+      }
+
+      .copyright {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+      }
+
+      .featured-badge {
+        background: linear-gradient(
+          90deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem 1.5rem;
+        }
+
+        .nav-links,
+        .search-box {
+          display: none;
+        }
+
+        .hero {
+          padding: 0 1.5rem 3rem 1.5rem;
+        }
+
+        .hero-title {
+          font-size: 2.2rem;
+        }
+
+        main {
+          padding: 1.5rem;
+        }
+
+        .movie-card {
+          min-width: 160px;
+        }
+
+        .movie-poster {
+          height: 230px;
+        }
+      }
+
+      /* Curseur personnalisé */
+      * {
+        cursor: none;
+      }
+
+      .custom-cursor {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        width: 30px;
+        height: 30px;
+        mix-blend-mode: difference;
+        transition: transform 0.2s ease;
+      }
+
+      .custom-cursor::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        transform: translate(-50%, -50%) rotate(0deg);
+        background: linear-gradient(
+          45deg,
+          var(--accent-primary),
+          var(--accent-secondary)
+        );
+        clip-path: polygon(
+          50% 0%,
+          80% 40%,
+          100% 50%,
+          80% 60%,
+          50% 100%,
+          20% 60%,
+          0% 50%,
+          20% 40%
+        );
+        animation: spin 2s linear infinite;
+      }
+
+      .custom-cursor::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        background: #fff;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      @keyframes spin {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        to {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
+
+      /* État hover pour les éléments interactifs */
+      a:hover ~ .custom-cursor,
+      button:hover ~ .custom-cursor,
+      .movie-card:hover ~ .custom-cursor {
+        transform: scale(1.5);
+      }
+
+      a:hover ~ .custom-cursor::before,
+      button:hover ~ .custom-cursor::before,
+      .movie-card:hover ~ .custom-cursor::before {
+        animation: spin 0.5s linear infinite;
+        background: linear-gradient(
+          -45deg,
+          var(--accent-secondary),
+          var(--accent-primary)
+        );
+        filter: drop-shadow(0 0 10px var(--accent-primary));
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="custom-cursor"></div>
+    <header>
+      <nav class="navbar">
+        <div class="logo-container">
+          <svg
+            class="logo"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="100" cy="100" r="90" fill="#1a1a1a" />
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#9333ea" />
+              <stop offset="100%" stop-color="#3b82f6" />
+            </linearGradient>
+            <circle
+              cx="100"
+              cy="100"
+              r="85"
+              stroke="url(#gradient)"
+              stroke-width="6"
+              fill="none"
+            />
+            <path
+              d="M70,70 C70,50 130,50 130,70 L130,100 L145,85 L130,70 L130,70"
+              fill="#9333ea"
+            />
+            <path
+              d="M130,130 C130,150 70,150 70,130 L70,100 L55,115 L70,130 L70,130"
+              fill="#3b82f6"
+            />
+            <circle cx="100" cy="100" r="15" fill="#ffffff" />
+            <circle cx="100" cy="100" r="8" fill="#1a1a1a" />
+          </svg>
+          <div class="logo-text">LOOPFLX</div>
+        </div>
+
+        <div class="nav-links">
+          <a href="index.html">Accueil</a>
+          <a href="#films">Films</a>
+          <a href="#">Séries</a>
+          <a href="#">Nouveautés</a>
+          <a href="#">Ma Liste</a>
+        </div>
+
+        <div class="nav-actions">
+          <a class="btn" href="./views/login.html">Se connecter</a>
+        </div>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">EXCLUSIVITÉ LOOPFLX</div>
+        <h1 class="hero-title">
+          Découvrez les derniers films et séries en streaming
+        </h1>
+        <p class="hero-description">
+          Accédez à des milliers de titres en illimité. Films, séries,
+          documentaires et bien plus encore.
+        </p>
+        <div class="hero-actions">
+          <button class="btn">Regarder maintenant</button>
+          <button class="btn-secondary">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                stroke="white"
+                stroke-width="2"
+              />
+              <path
+                d="M8.5 12.5L10.5 14.5L15.5 9.5"
+                stroke="white"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Ajouter à ma liste
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <main>
+      <div class="categories">
+        <div class="category active" data-category="all">Tous</div>
+        <div class="category" data-category="action">Action</div>
+        <div class="category" data-category="comedie">Comédie</div>
+        <div class="category" data-category="drame">Drame</div>
+        <div class="category" data-category="horreur">Horreur</div>
+        <div class="category" data-category="sciencefiction">Science-Fiction</div>
+        <div class="category" data-category="romance">Romance</div>
+        <div class="category" data-category="documentaire">Documentaire</div>
+        <div class="category" data-category="animation">Animation</div>
+      </div>
+      <!-- Tendances -->
+      <section>
+        <h2 class="section-title" id="film">Tendances</h2>
+        <div class="movie-slider">
+          <div class="movie-card">
+            <a href="/views/categories/actions/actions.html">
+              <img
+              class="movie-poster"
+              src="/assets/images/téléchargement.jpg"
+              alt="Movie Poster"
+            />
+            </a>
+            
+            <div class="movie-info">
+              <div class="movie-title">Collision Cosmique</div>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="badge">HD</span>
+                <span class="featured-badge">TOP</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <a href="/views/categories/actions/actions.html">
+              <img
+                class="movie-poster"
+                src="/assets/images/Nebula_Nine01.jpg"
+                alt="Movie Poster"
+              />
+            </a>
+            <div class="movie-info">
+              <div class="movie-title">Nébuleuse 9</div>
+              <div class="movie-meta">
+                <span>2024</span>
+                <span class="badge">4K</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="/assets/images/echo du passé.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Échos du passé</div>
+              <div class="movie-meta">
+                <span>2024</span>
+                <span class="badge">HD</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="/assets/images/chronique du future.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Chroniques futures</div>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="badge">HD</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="/assets/images/horizon perdu.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Horizons perdus</div>
+              <div class="movie-meta">
+                <span>2023</span>
+                <span class="badge">4K</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="/assets/images/L'aube éternelle.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">L'aube éternelle</div>
+              <div class="movie-meta">
+                <span>2024</span>
+                <span class="badge">HD</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- nouveautés -->
+      <section>
+        <h2 class="section-title">Nouveautés</h2>
+        <div class="movie-slider">
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="/assets/images/Dimension parallèle.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Dimension parallèle</div>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="badge">HD</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="/assets/images/Cauchemar urbain.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Cauchemar urbain</div>
+              <div class="movie-meta">
+                <span>2024</span>
+                <span class="badge">4K</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="/assets/images/Le dernier voyage.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Le dernier voyage</div>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="badge">HD</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="/assets/images/Secrets enfouis.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Secrets enfouis</div>
+              <div class="movie-meta">
+                <span>2024</span>
+                <span class="badge">HD</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="/assets/images/Cité fantôme.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Cité fantôme</div>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="badge">4K</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="/assets/images/L'héritage perdu.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">L'héritage perdu</div>
+              <div class="movie-meta">
+                <span>2024</span>
+                <span class="badge">HD</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- series populaire -->
+      <section>
+        <h2 class="section-title">Séries populaires</h2>
+        <div class="movie-slider">
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="assets/images/Chroniques nocturnes.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Chroniques nocturnes</div>
+              <div class="movie-meta">
+                <span>2024</span>
+                <span class="badge">HD</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="assets/images/Îles mystérieuses.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Îles mystérieuses</div>
+              <div class="movie-meta">
+                <span>2023</span>
+                <span class="badge">4K</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="assets/images/Agents secrets.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Agents secrets</div>
+              <div class="movie-meta">
+                <span>2024</span>
+                <span class="badge">HD</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="assets/images/Dynastie moderne.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Dynastie moderne</div>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="badge">HD</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="assets/images/Force d'élite.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Force d'élite</div>
+              <div class="movie-meta">
+                <span>2024</span>
+                <span class="badge">4K</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-card">
+            <img
+              class="movie-poster"
+              src="assets/images/Cycles infinis.jpg"
+              alt="Movie Poster"
+            />
+            <div class="movie-info">
+              <div class="movie-title">Cycles infinis</div>
+              <div class="movie-meta">
+                <span>2025</span>
+                <span class="badge">HD</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div id="container"></div>
+    </main>
+    <div class="container">
+      <!-- Page Contact -->
+      <section id="contact" class="page-section active">
+        <h2 class="logo-text">Contactez-nous</h2>
+        <p>
+          Vous avez des questions ou des suggestions ? N'hésitez pas à nous
+          contacter, notre équipe est là pour vous répondre.
+        </p>
+
+        <form>
+          <div class="form-group">
+            <label for="name">Nom complet</label>
+            <input
+              type="text"
+              id="name"
+              placeholder="Votre nom complet"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Adresse e-mail</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Votre adresse e-mail"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Sujet</label>
+            <select id="subject">
+              <option value="support">Support technique</option>
+              <option value="feedback">Commentaires sur l'application</option>
+              <option value="partnership">Proposition de partenariat</option>
+              <option value="other">Autre</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea
+              id="message"
+              placeholder="Décrivez votre demande en détail"
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn">Envoyer le message</button>
+        </form>
+
+        <div style="margin-top: 2rem">
+          <h3 class="logo-text">Autres moyens de nous joindre</h3>
+          <p><strong>Email:</strong> contact@loopflx.com</p>
+          <p><strong>Téléphone:</strong> +237 6 55 27 11 61</p>
+          <p>
+            <strong>Adresse:</strong> 123 Avenue de l'Innovation, 75000 Douala,
+            Cameroun
+          </p>
+        </div>
+      </section>
+
+      <!-- Page À propos -->
+      <section id="about" class="page-section">
+        <h2 class="logo-text">À propos de LoopFlx</h2>
+
+        <p>
+          Loop est née d'une vision simple : simplifier votre quotidien grâce à
+          la technologie. Fondée en 2023, notre startup s'est donnée pour
+          mission de créer des solutions intuitives qui s'intègrent
+          harmonieusement dans votre vie de tous les jours.
+        </p>
+
+        <h3 class="logo-text">Notre Histoire</h3>
+        <p>
+          Tout a commencé lorsque nos fondateurs, passionnés de technologie et
+          d'expérience utilisateur, ont constaté qu'il manquait sur le marché
+          une application vraiment centrée sur les besoins quotidiens des
+          utilisateurs. De cette observation est née Loop, une application qui
+          rationalise les tâches quotidiennes en un seul endroit.
+        </p>
+
+        <h3 class="logo-text">Notre Mission</h3>
+        <p>
+          Chez LoopFlx, nous croyons que la technologie devrait vous faire
+          gagner du temps, pas vous en faire perdre. C'est pourquoi nous
+          concevons des outils simples, efficaces et accessibles à tous. Notre
+          objectif est de vous aider à vous concentrer sur ce qui compte
+          vraiment dans votre vie.
+        </p>
+
+        <h3 class="logo-text">Nos Valeurs</h3>
+        <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+          <li>
+            <strong>Simplicité</strong> - Nous croyons en la puissance de la
+            simplicité. Notre interface est conçue pour être intuitive et facile
+            à utiliser.
+          </li>
+          <li>
+            <strong>Innovation</strong> - Nous repoussons constamment les
+            limites pour offrir des fonctionnalités qui répondent véritablement
+            aux besoins des utilisateurs.
+          </li>
+          <li>
+            <strong>Respect</strong> - Le respect de vos données et de votre vie
+            privée est au cœur de notre approche.
+          </li>
+          <li>
+            <strong>Durabilité</strong> - Nous nous engageons à minimiser notre
+            impact environnemental et à promouvoir des pratiques durables.
+          </li>
+        </ul>
+
+        <h3 class="logo-text">Notre Équipe</h3>
+        <p>
+          Loop est portée par une équipe passionnée de développeurs, designers
+          et experts en expérience utilisateur. Nous sommes unis par notre désir
+          de créer une application qui fait vraiment la différence dans votre
+          quotidien. Notre diversité est notre force, apportant une multitude de
+          perspectives à notre travail.
+        </p>
+
+        <h3 class="logo-text">Rejoignez l'Aventure</h3>
+        <p>
+          Nous sommes toujours à la recherche de personnes talentueuses pour
+          rejoindre notre équipe. Si vous êtes passionné par la technologie et
+          souhaitez contribuer à notre mission, consultez notre page
+          <a href="#" onclick="showPage('jobs')">Emplois</a>.
+        </p>
+      </section>
+
+      <!-- Page Conditions d'Utilisation -->
+      <section id="terms" class="page-section">
+        <h2 class="logo-text">Conditions Générales d'Utilisation</h2>
+        <p>Dernière mise à jour : 21 mai 2025</p>
+
+        <p>
+          Bienvenue sur Loop ! Veuillez lire attentivement ces conditions
+          d'utilisation avant d'utiliser notre application.
+        </p>
+
+        <h3>1. Acceptation des Conditions</h3>
+        <p>
+          En accédant à notre application ou en l'utilisant, vous acceptez
+          d'être lié par ces Conditions. Si vous n'acceptez pas ces Conditions,
+          vous ne devez pas utiliser notre application.
+        </p>
+
+        <h3>2. Modifications des Conditions</h3>
+        <p>
+          Nous nous réservons le droit de modifier ces Conditions à tout moment.
+          Les modifications prendront effet dès leur publication sur cette page.
+          Votre utilisation continue de l'Application après la publication des
+          Conditions modifiées constitue votre acceptation de ces modifications.
+        </p>
+
+        <h3>3. Utilisation de l'Application</h3>
+        <p>
+          Vous acceptez d'utiliser l'Application uniquement à des fins légales
+          et conformément à ces Conditions. Vous acceptez de ne pas utiliser
+          l'Application :
+        </p>
+        <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+          <li>De manière frauduleuse ou illicite</li>
+          <li>Pour harceler, abuser ou nuire à d'autres personnes</li>
+          <li>Pour transmettre des virus ou autres codes malveillants</li>
+          <li>
+            Pour tenter d'accéder sans autorisation à nos systèmes ou réseaux
+          </li>
+        </ul>
+
+        <h3>4. Création de Compte</h3>
+        <p>
+          Certaines fonctionnalités de notre Application peuvent nécessiter la
+          création d'un compte. Vous êtes responsable du maintien de la
+          confidentialité de vos informations de compte et de toutes les
+          activités qui se produisent sous votre compte.
+        </p>
+
+        <h3>5. Contenu Utilisateur</h3>
+        <p>
+          Notre Application peut vous permettre de publier, télécharger ou
+          soumettre du contenu. En soumettant du contenu, vous nous accordez une
+          licence mondiale, non exclusive, libre de redevance pour utiliser,
+          reproduire et distribuer ce contenu dans le cadre de notre service.
+        </p>
+
+        <h3>6. Propriété Intellectuelle</h3>
+        <p>
+          L'Application et son contenu original, fonctionnalités et
+          fonctionnalités sont et resteront la propriété exclusive de Loop et de
+          ses concédants. L'Application est protégée par les lois sur le droit
+          d'auteur, les marques de commerce et autres lois en France et à
+          l'étranger.
+        </p>
+
+        <h3>7. Résiliation</h3>
+        <p>
+          Nous pouvons résilier ou suspendre votre accès à l'Application
+          immédiatement, sans préavis ni responsabilité, pour quelque raison que
+          ce soit, y compris, sans limitation, si vous violez les Conditions.
+        </p>
+
+        <h3>8. Limitation de Responsabilité</h3>
+        <p>
+          En aucun cas, Loop, ses administrateurs, employés ou agents ne seront
+          responsables de tout dommage direct, indirect, accessoire, spécial ou
+          consécutif découlant de votre utilisation de l'Application.
+        </p>
+
+        <h3>9. Loi Applicable</h3>
+        <p>
+          Ces Conditions sont régies et interprétées conformément aux lois de
+          France, sans égard aux principes de conflits de lois.
+        </p>
+
+        <h3>10. Contact</h3>
+        <p>
+          Si vous avez des questions concernant ces Conditions, veuillez nous
+          contacter à terms@loopapp.com.
+        </p>
+      </section>
+
+      <!-- Page Emplois -->
+      <section id="jobs" class="page-section">
+        <h2 class="logo-text">Rejoignez l'équipe Loop</h2>
+        <p>
+          Chez Loop, nous cherchons des personnes passionnées qui souhaitent
+          contribuer à notre mission de simplifier le quotidien grâce à la
+          technologie. Découvrez nos opportunités d'emploi ci-dessous.
+        </p>
+
+        <div class="job-card">
+          <h3 class="job-title logo-text">Développeur(se) Front-End Senior</h3>
+          <p class="job-location">Douala, Cameroun (Hybride)</p>
+          <p>
+            Nous recherchons un(e) développeur(se) front-end expérimenté(e) pour
+            rejoindre notre équipe de développement. Vous serez responsable de
+            la conception et de l'implémentation des interfaces utilisateur de
+            notre application.
+          </p>
+          <h4 class="logo-text">Compétences requises :</h4>
+          <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+            <li>Minimum 4 ans d'expérience en développement front-end</li>
+            <li>
+              Maîtrise de HTML, CSS, JavaScript et des frameworks modernes
+              (React, Vue ou Angular)
+            </li>
+            <li>
+              Expérience en conception d'interfaces utilisateur responsive
+            </li>
+            <li>Connaissance des bonnes pratiques d'accessibilité web</li>
+            <li>
+              Capacité à travailler en équipe et à collaborer avec les designers
+            </li>
+          </ul>
+          <a href="#" class="btn">Postuler maintenant</a>
+        </div>
+
+        <div class="job-card">
+          <h3 class="job-title">Designer UX/UI</h3>
+          <p class="job-location">
+            Douala, Cameroun (Hybride) ou 100% Télétravail
+          </p>
+          <p>
+            Nous recherchons un(e) designer UX/UI talentueux(se) pour concevoir
+            des expériences utilisateur intuitives et esthétiques pour notre
+            application mobile et web.
+          </p>
+          <h4>Compétences requises :</h4>
+          <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+            <li>Minimum 3 ans d'expérience en conception UX/UI</li>
+            <li>Maîtrise des outils de conception (Figma, Sketch, Adobe XD)</li>
+            <li>
+              Expérience dans la création de wireframes, prototypes et tests
+              utilisateurs
+            </li>
+            <li>
+              Compréhension des principes de design centré sur l'utilisateur
+            </li>
+            <li>Portfolio démontrant vos capacités de design</li>
+          </ul>
+          <a href="#" class="btn">Postuler maintenant</a>
+        </div>
+
+        <div class="job-card">
+          <h3 class="job-title">Développeur(se) Back-End</h3>
+          <p class="job-location">
+            Yaounde, Douala (100% Télétravail possible)
+          </p>
+          <p>
+            Nous recherchons un(e) développeur(se) back-end pour renforcer notre
+            équipe technique. Vous serez responsable du développement et de la
+            maintenance des API et services qui alimentent notre application.
+          </p>
+          <h4>Compétences requises :</h4>
+          <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+            <li>Minimum 3 ans d'expérience en développement back-end</li>
+            <li>Maîtrise de Node.js, Python ou Java</li>
+            <li>Expérience avec les bases de données SQL et NoSQL</li>
+            <li>Connaissance des principes de conception d'API RESTful</li>
+            <li>
+              Expérience avec les architectures cloud (AWS, Google Cloud ou
+              Azure)
+            </li>
+          </ul>
+          <a href="#" class="btn">Postuler maintenant</a>
+        </div>
+
+        <div class="job-card">
+          <h3 class="job-title">Responsable Marketing Digital</h3>
+          <p class="job-location">Douala, Cameroun</p>
+          <p>
+            Nous recherchons un(e) responsable marketing digital pour développer
+            et mettre en œuvre notre stratégie de marketing numérique. Vous
+            serez chargé(e) d'accroître la visibilité de notre application et
+            d'attirer de nouveaux utilisateurs.
+          </p>
+          <h4>Compétences requises :</h4>
+          <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+            <li>Minimum 5 ans d'expérience en marketing digital</li>
+            <li>
+              Expérience en acquisition d'utilisateurs pour applications mobiles
+            </li>
+            <li>Maîtrise des outils d'analyse et de reporting</li>
+            <li>Connaissance des stratégies SEO/SEM</li>
+            <li>Expérience en gestion de campagnes sur les réseaux sociaux</li>
+          </ul>
+          <a href="#" class="btn">Postuler maintenant</a>
+        </div>
+
+        <p style="margin-top: 2rem">
+          Vous ne trouvez pas le poste qui vous correspond ? Envoyez-nous votre
+          candidature spontanée à <strong>careers@loopflx.com</strong> et nous
+          vous contacterons si une opportunité correspondant à votre profil se
+          présente.
+        </p>
+      </section>
+
+      <!-- Page Politique de Confidentialité -->
+      <section id="privacy" class="page-section">
+        <h2 class="logo-text">Politique de Confidentialité</h2>
+        <p>Dernière mise à jour : 21 mai 2025</p>
+
+        <p>
+          Chez Loop, nous accordons une grande importance à la protection de vos
+          données personnelles. Cette politique de confidentialité explique
+          comment nous collectons, utilisons et protégeons vos informations
+          lorsque vous utilisez notre application.
+        </p>
+
+        <h3>1. Informations que nous collectons</h3>
+        <p>Nous pouvons collecter les types d'informations suivants :</p>
+        <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+          <li>
+            <strong>Informations personnelles</strong> : nom, adresse e-mail,
+            numéro de téléphone lorsque vous créez un compte
+          </li>
+          <li>
+            <strong>Données d'utilisation</strong> : informations sur la façon
+            dont vous utilisez notre application
+          </li>
+          <li>
+            <strong>Données de l'appareil</strong> : informations sur votre
+            appareil mobile ou ordinateur
+          </li>
+          <li>
+            <strong>Données de localisation</strong> : avec votre consentement,
+            nous pouvons collecter des données de localisation précises
+          </li>
+        </ul>
+
+        <h3>2. Comment nous utilisons vos informations</h3>
+        <p>Nous utilisons vos informations pour :</p>
+        <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+          <li>Fournir, maintenir et améliorer notre application</li>
+          <li>Traiter vos transactions</li>
+          <li>
+            Vous envoyer des notifications relatives à votre compte ou à
+            l'application
+          </li>
+          <li>Vous fournir une assistance client</li>
+          <li>
+            Comprendre comment les utilisateurs interagissent avec notre
+            application
+          </li>
+          <li>
+            Détecter, prévenir et résoudre les problèmes techniques ou de
+            sécurité
+          </li>
+        </ul>
+
+        <h3>3. Partage de vos informations</h3>
+        <p>
+          Nous ne vendons pas vos données personnelles. Nous pouvons partager
+          vos informations dans les situations suivantes :
+        </p>
+        <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+          <li>
+            Avec des fournisseurs de services qui nous aident à exploiter notre
+            application
+          </li>
+          <li>Pour se conformer à la loi ou à des procédures judiciaires</li>
+          <li>
+            Pour protéger les droits, la propriété ou la sécurité de Loop, de
+            nos utilisateurs ou du public
+          </li>
+          <li>Dans le cadre d'une fusion, acquisition ou vente d'actifs</li>
+        </ul>
+
+        <h3>4. Vos droits</h3>
+        <p>
+          Selon votre lieu de résidence, vous pouvez avoir certains droits
+          concernant vos données personnelles, notamment :
+        </p>
+        <ul style="margin-left: 1.5rem; margin-bottom: 1rem">
+          <li>Le droit d'accéder à vos données</li>
+          <li>Le droit de rectifier vos données</li>
+          <li>Le droit de supprimer vos données</li>
+          <li>Le droit de restreindre le traitement de vos données</li>
+          <li>Le droit à la portabilité des données</li>
+          <li>Le droit d'opposition</li>
+        </ul>
+        <p>
+          Pour exercer ces droits, veuillez nous contacter à
+          privacy@loopapp.com.
+        </p>
+
+        <h3>5. Sécurité des données</h3>
+        <p>
+          Nous prenons la sécurité de vos données très au sérieux et mettons en
+          œuvre des mesures techniques et organisationnelles appropriées pour
+          protéger vos informations contre tout accès, modification, divulgation
+          ou destruction non autorisés.
+        </p>
+
+        <h3>6. Conservation des données</h3>
+        <p>
+          Nous conservons vos données personnelles aussi longtemps que
+          nécessaire pour atteindre les objectifs décrits dans cette politique
+          de confidentialité, sauf si une période de conservation plus longue
+          est requise ou permise par la loi.
+        </p>
+
+        <h3>7. Transferts internationaux</h3>
+        <p>
+          Vos informations peuvent être transférées et traitées dans des pays
+          autres que celui dans lequel vous résidez. Ces pays peuvent avoir des
+          lois sur la protection des données différentes de celles de votre
+          pays.
+        </p>
+
+        <h3>8. Modifications de cette politique</h3>
+        <p>
+          Nous pouvons mettre à jour cette politique de confidentialité de temps
+          à autre. Nous vous informerons de tout changement en publiant la
+          nouvelle politique de confidentialité sur cette page et en vous
+          informant via l'application ou par e-mail.
+        </p>
+
+        <h3>9. Contact</h3>
+        <p>
+          Si vous avez des questions concernant cette politique de
+          confidentialité, veuillez nous contacter à :
+        </p>
+        <p>
+          LoopFlx<br />123 Avenue de l'Innovation<br />Yassa Douala, Cameroun<br />Email
+          : privacy@loopflx.com
+        </p>
+      </section>
+    </div>
+
+    <footer>
+      <div class="footer-logo">
+        <svg
+          width="40"
+          height="40"
+          viewBox="0 0 200 200"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="100" cy="100" r="90" fill="#1a1a1a" />
+          <linearGradient
+            id="gradient-footer"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
+            <stop offset="0%" stop-color="#9333ea" />
+            <stop offset="100%" stop-color="#3b82f6" />
+          </linearGradient>
+          <circle
+            cx="100"
+            cy="100"
+            r="85"
+            stroke="url(#gradient-footer)"
+            stroke-width="6"
+            fill="none"
+          />
+          <path
+            d="M70,70 C70,50 130,50 130,70 L130,100 L145,85 L130,70 L130,70"
+            fill="#9333ea"
+          />
+          <path
+            d="M130,130 C130,150 70,150 70,130 L70,100 L55,115 L70,130 L70,130"
+            fill="#3b82f6"
+          />
+          <circle cx="100" cy="100" r="15" fill="#ffffff" />
+          <circle cx="100" cy="100" r="8" fill="#1a1a1a" />
+        </svg>
+      </div>
+      <div class="footer-links">
+        <a href="#container" onclick="showPage('about')">À propos</a>
+        <a href="#container">Centre d'aide</a>
+        <a href="#container" onclick="showPage('privacy')"
+          >Conditions d'utilisation</a
+        >
+        <a href="#container" onclick="showPage('terms')">Confidentialité</a>
+        <a href="#container" onclick="showPage('contact')">Contact</a>
+        <a href="#container" onclick="showPage('jobs')">Emplois</a>
+      </div>
+      <div class="copyright">© 2025 Loop. Tous droits réservés.</div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const categories = document.querySelectorAll(".category");
+        const sections = document.querySelectorAll("section.film-section");
+
+        categories.forEach((category) => {
+          category.addEventListener("click", function () {
+            // Retirer la classe active de toutes les catégories
+            categories.forEach((cat) => cat.classList.remove("active"));
+            // Ajouter la classe active à la catégorie cliquée
+            this.classList.add("active");
+
+            const cat = this.getAttribute("data-category");
+            sections.forEach((section) => {
+              // Affiche si la section contient la catégorie ou si "Tous"
+              if (cat === "all" || section.getAttribute("data-category").includes(cat)) {
+                section.style.display = "";
+              } else {
+                section.style.display = "none";
+              }
+            });
+          });
+        });
+      });
+    </script>
+
+    <!-- JavaScript pour le footer -->
+    <script>
+      function showPage(pageId) {
+        // Hide all pages
+        const pages = document.querySelectorAll(".page-section");
+
+        pages.forEach((page) => {
+          page.classList.remove("active");
+        });
+
+        // Show selected page
+        document.getElementById(pageId).classList.add("active");
+
+        // Scroll to top
+        window.scrollTo(0, 0);
+      }
+
+      // Theme switcher
+      const toggleSwitch = document.querySelector("#checkbox");
+      const currentTheme = localStorage.getItem("theme");
+
+      if (currentTheme) {
+        document.documentElement.setAttribute("data-theme", currentTheme);
+
+        if (currentTheme === "dark") {
+          toggleSwitch.checked = true;
+        }
+      }
+
+      function switchTheme(e) {
+        if (e.target.checked) {
+          document.documentElement.setAttribute("data-theme", "dark");
+          localStorage.setItem("theme", "dark");
+        } else {
+          document.documentElement.setAttribute("data-theme", "light");
+          localStorage.setItem("theme", "light");
+        }
+      }
+
+      toggleSwitch.addEventListener("change", switchTheme, false);
+
+      // Check for system preference
+      if (!currentTheme) {
+        const prefersDarkScheme = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        );
+        if (prefersDarkScheme.matches) {
+          document.documentElement.setAttribute("data-theme", "dark");
+          toggleSwitch.checked = true;
+          localStorage.setItem("theme", "dark");
+        }
+      }
+    </script>
+
+    <script>
+      // Remplacez le script du curseur existant par celui-ci
+      const cursor = document.querySelector(".custom-cursor");
+
+      document.addEventListener("mousemove", (e) => {
+        requestAnimationFrame(() => {
+          cursor.style.left = e.clientX + "px";
+          cursor.style.top = e.clientY + "px";
+        });
+      });
+
+      // Animation sur les éléments interactifs
+      const interactiveElements = document.querySelectorAll(
+        "a, button, .movie-card"
+      );
+
+      interactiveElements.forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursor.classList.add("hover");
+        });
+
+        el.addEventListener("mouseleave", () => {
+          cursor.classList.remove("hover");
+        });
+      });
+
+      // Gestion de la visibilité du curseur
+      document.addEventListener("mouseenter", () => {
+        cursor.style.opacity = "1";
+      });
+
+      document.addEventListener("mouseleave", () => {
+        cursor.style.opacity = "0";
+      });
+    </script>
+  </body>
+</html>
